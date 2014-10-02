@@ -33,22 +33,6 @@ def get_tweet_data(list_of_statuses):
 	data = {'tweet':tweet, 'hashtags_text':hashtags_text, 'users':users, 'description':description}
 	return data
 
-#would like to get this to start working, need to have maxID pulled everytime we pull tweets 
-#so prev_results should probably be the dict
-def twitter_search(q, c=3, n=5, maxID=0, prev_results={}): 
-	if n!=0:
-		n -= 1
-		if prev_results:
-			search_results = tw_api.search.tweets(q=q, count=c)
-			maxID = search_results['search_metadata']['max_id']-1
-			twitter_search(q,c,n,maxID,search_results['statuses'])
-		else:
-			search_results = tw_api.search.tweets(q=q, count=c, max_id=maxID)
-			prev_results += search_results['statuses']
-			twitter_search(q,c,n,maxID,prev_results)
-	else:
-		return prev_results
-
 def graph_add_node(n):
     if g.has_node(n):
         g.node[n]['weight']+=1
